@@ -18,9 +18,5 @@ Make sure you have enough ETH your private key wallet.
 npx hardhat run --network goerli scripts/deployAndVerify.ts
 ```
 
-### Run Test
-If you want to run tests you must use Hardhat Network.
-So please comment the line `defaultNetwork:` from `hardhat.config.ts`
-
 ### version
 ✅ node version v18.16.0

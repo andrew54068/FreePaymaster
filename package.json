@@ -3,7 +3,6 @@
   "scripts": {
     "deploy": "ts-node scripts/deployAndVerify.ts",
     "enable-paymaster": "ts-node scripts/enable-paymaster.ts",
-    "test": "ts-mocha ./test/NFT.ts"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^2.0.1",
