@@ -18,11 +18,12 @@ const provider = new HDWalletProvider(privateKey, providerOrUrl);
 const web3 = new Web3(provider as any);
 
 (async () => {
+  const amountEthToDeposit = 0.002
   const contractName = "FreePaymaster";
   const Contract = await hre.ethers.getContractFactory(contractName);
   const contract = await Contract.attach("0x411bafa5a252F47e27B399Ab48e0A7aDcB4256A1");
   console.log(`⏳ you are going to use contract: ${contractName}`);
-  const eth = web3.utils.toWei('0.002', 'ether')
+  const eth = web3.utils.toWei(`${amountEthToDeposit}`, 'ether')
   const addStakeTx = await contract.addStake(300, { value: eth })
   console.log(`⏳ addStakeTx: ${JSON.stringify(addStakeTx, null, '  ')}`);
   const addStakeReceipt = await addStakeTx.wait()

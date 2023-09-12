@@ -1,7 +1,7 @@
 {
   "name": "hardhat-project",
   "scripts": {
-    "deploy": "ts-node scripts/deploy.ts",
+    "deploy": "ts-node scripts/deployAndVerify.ts",
     "enable-paymaster": "ts-node scripts/enable-paymaster.ts",
     "test": "ts-mocha ./test/NFT.ts"
   },

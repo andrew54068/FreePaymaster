@@ -19,10 +19,9 @@ if (!privateKey) process.exit()
 const provider = new HDWalletProvider(privateKey, providerOrUrl);
 const web3 = new Web3(provider as any);
 
-(async () => {
-  const finalNonce = 0
-  await increaseNonce(0, finalNonce, web3, privateKey)
-  console.log(`✅ next transaction nonce will be ${finalNonce}`);
+const deployAndVerifyWithNonce = async (nonce: number) => {
+  await increaseNonce(0, nonce, web3, privateKey)
+  console.log(`✅ next transaction nonce will be ${nonce}`);
 
   const contractName = "FreePaymaster";
   const contract = hre.ethers.getContractFactory(contractName);
@@ -52,5 +51,10 @@ const web3 = new Web3(provider as any);
     }
   }
   await exec()
+}
 
+(async () => {
+  const targetNonce = 0
+  await deployAndVerifyWithNonce(targetNonce)
+  process.exit()
 })();
