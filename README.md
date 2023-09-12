@@ -1,6 +1,6 @@
-# Sample Hardhat Project
+# Deploy FreePaymaster
 
-###### This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a script that deploys that contract.
+###### This project demonstrates how to deploy a FreePaymaster meaning that the paymaster don't check the data as long as the input format is correct.
 
 ### Deploy Smart Contract on EVM and verify it with etherscan
 1. copy a file from `.env.example`, rename it to `.env` and fill in each value.
