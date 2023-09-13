@@ -2,6 +2,7 @@
 const hre = require("hardhat");
 // import HDWalletProvider from "@truffle/hdwallet-provider"
 const HDWalletProvider = require("@truffle/hdwallet-provider");
+import minimist, { ParsedArgs } from 'minimist'
 import * as dotenv from "dotenv"
 import Web3 from "web3"
 dotenv.config();
@@ -17,21 +18,42 @@ if (!privateKey) process.exit()
 const provider = new HDWalletProvider(privateKey, providerOrUrl);
 const web3 = new Web3(provider as any);
 
-(async () => {
+const enablePaymaster = async (account: string) => {
   const amountEthToDeposit = 0.002
   const contractName = "FreePaymaster";
   const Contract = await hre.ethers.getContractFactory(contractName);
-  const contract = await Contract.attach("0x411bafa5a252F47e27B399Ab48e0A7aDcB4256A1");
+  const contract = await Contract.attach(account);
   console.log(`⏳ you are going to use contract: ${contractName}`);
   const eth = web3.utils.toWei(`${amountEthToDeposit}`, 'ether')
   const addStakeTx = await contract.addStake(300, { value: eth })
   console.log(`⏳ addStakeTx: ${JSON.stringify(addStakeTx, null, '  ')}`);
   const addStakeReceipt = await addStakeTx.wait()
   console.log(`✅ addStakeReceipt: ${JSON.stringify(addStakeReceipt, null, '  ')}`);
-  
+
   const depositTx = await contract.deposit({ value: eth })
   console.log(`⏳ depositTx: ${JSON.stringify(depositTx, null, '  ')}`);
   const depositTxReceipt = await depositTx.wait()
   console.log(`✅ depositTxReceipt: ${JSON.stringify(depositTxReceipt, null, '  ')}`);
+  process.exit()
+}
+
+const parse = (
+  argv: ParsedArgs,
+): Parameters<typeof enablePaymaster> => {
+  const [account] = argv._
+
+  if (account.length != 42) {
+    process.exit()
+  }
+
+  return [
+    JSON.parse(account)
+  ]
+}
+
+(async () => {
+  const argv = minimist(process.argv.slice(1))
+  const args = parse(argv)
+  await enablePaymaster(...args)
   process.exit()
 })();

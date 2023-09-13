@@ -17,17 +17,19 @@ const providerOrUrl = "https://goerli.infura.io/v3/" + infuraProjectId; /* GOERL
 
 if (!privateKey) process.exit()
 const provider = new HDWalletProvider(privateKey, providerOrUrl);
+const address = provider.getAddress()
 const web3 = new Web3(provider as any);
 
 const deployAndVerifyWithNonce = async (nonce: number) => {
-  await increaseNonce(0, nonce, web3, privateKey)
+  await increaseNonce(0, nonce, address, web3, privateKey)
   console.log(`✅ next transaction nonce will be ${nonce}`);
 
   const contractName = "FreePaymaster";
   const contract = hre.ethers.getContractFactory(contractName);
   console.log(`⏳ you are going to deploy contract: ${contractName}`);
 
-  const constructorArguments: any[] = ['0x5ff137d4b0fdcd49dca30c7cf57e578a026d2789'];
+  const entryPoint = '0x5ff137d4b0fdcd49dca30c7cf57e578a026d2789'
+  const constructorArguments: any[] = [entryPoint];
   const deployedContract = await hre.ethers.deployContract(
     contractName,
     constructorArguments
