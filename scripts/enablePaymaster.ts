@@ -2,7 +2,6 @@
 const hre = require("hardhat");
 // import HDWalletProvider from "@truffle/hdwallet-provider"
 const HDWalletProvider = require("@truffle/hdwallet-provider");
-import minimist, { ParsedArgs } from 'minimist'
 import * as dotenv from "dotenv"
 import Web3 from "web3"
 dotenv.config();
@@ -37,23 +36,10 @@ const enablePaymaster = async (account: string) => {
   process.exit()
 }
 
-const parse = (
-  argv: ParsedArgs,
-): Parameters<typeof enablePaymaster> => {
-  const [account] = argv._
-
-  if (account.length != 42) {
-    process.exit()
-  }
-
-  return [
-    JSON.parse(account)
-  ]
-}
-
 (async () => {
-  const argv = minimist(process.argv.slice(1))
-  const args = parse(argv)
-  await enablePaymaster(...args)
+  const argv = process.argv
+  const account = argv[argv.length - 1]
+  if (account.length != 42) process.exit()
+  await enablePaymaster(account)
   process.exit()
 })();

@@ -13,9 +13,10 @@ npx hardhat run --network goerli scripts/deployAndVerify.ts
 ```
 
 ### Enable Paymaster
-Make sure you have enough ETH your private key wallet.
+1. change the default network from `hardhat.config.ts`
+2. Make sure you have enough ETH your private key wallet.
 ```shell
-npx hardhat run --network goerli scripts/enablePaymaster.ts ${your_contract_address}
+npx ts-node scripts/enablePaymaster.ts ${your_contract_address}
 ```
 
 ### version
